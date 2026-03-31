@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const swaggerSpec = require('./swagger');
+const swaggerUi = require('swagger-ui-express');
 const ticketRoutes = require('./routes/ticketRoute');
 
 require('dotenv').config();
@@ -10,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api/tickets', ticketRoutes);
 
 app.use((req, res) => {
