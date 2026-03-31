@@ -1,7 +1,7 @@
 const Database = require('better-sqlite3');
 const path = require('path');
 
-const db = new Database(path.join(__dirname, '../helpdesk.db'));
+const db = new Database('/tmp/helpdesk.db');
 
 db.exec(`
     CREATE TABLE IF NOT EXISTS tickets (

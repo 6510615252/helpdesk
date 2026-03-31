@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3000/api/tickets';
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const getAllTickets = async ({ status, sortBy } = {}) => {
     const params = {};
