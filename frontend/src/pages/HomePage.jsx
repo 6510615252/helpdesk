@@ -24,7 +24,7 @@ function HomePage({ onEditTicket, onNewTicket, refreshKey }) {
       }
     };
     fetchTickets();
-  }, [sortBy, refreshKey]); // re-fetch เมื่อ sortBy หรือ refreshKey เปลี่ยน
+  }, [sortBy, refreshKey]);
   const [visibleStatuses, setVisibleStatuses] = useState([
     "pending",
     "accepted",

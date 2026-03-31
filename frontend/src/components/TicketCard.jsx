@@ -40,7 +40,7 @@ function TicketCard({ ticket, onEdit }) {
                 color: '#6b7280',
                 overflow: 'hidden',
                 display: '-webkit-box',
-                WebkitLineClamp: 2,        // แสดงแค่ 2 บรรทัด
+                WebkitLineClamp: 2, 
                 WebkitBoxOrient: 'vertical',
             }}>
                 {ticket.description}

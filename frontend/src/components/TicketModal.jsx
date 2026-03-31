@@ -1,11 +1,10 @@
-// src/components/TicketModal.jsx
 import { useState, useEffect } from 'react';
 import { createTicket, updateTicket } from '../services/ticketService';
 
 const STATUSES = ['pending', 'accepted', 'resolved', 'rejected'];
 
 function TicketModal({ ticket, onClose, onSuccess }) {
-    const isEditMode = !!ticket;  // ticket มีค่า = edit, null = create
+    const isEditMode = !!ticket;  
 
     const [form, setForm] = useState({
         title:       '',
@@ -16,7 +15,6 @@ function TicketModal({ ticket, onClose, onSuccess }) {
     const [loading, setLoading] = useState(false);
     const [error, setError]     = useState(null);
 
-    // ถ้าเป็น edit mode → เอาค่า ticket มาใส่ form
     useEffect(() => {
         if (ticket) {
             setForm({
@@ -51,7 +49,6 @@ function TicketModal({ ticket, onClose, onSuccess }) {
     };
 
     return (
-        // Backdrop
         <div
             onClick={onClose}
             style={{
