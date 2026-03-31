@@ -25,6 +25,12 @@ function HomePage({ onEditTicket, onNewTicket, refreshKey }) {
     };
     fetchTickets();
   }, [sortBy, refreshKey]); // re-fetch เมื่อ sortBy หรือ refreshKey เปลี่ยน
+  const [visibleStatuses, setVisibleStatuses] = useState([
+    "pending",
+    "accepted",
+    "resolved",
+    "rejected",
+  ]);
 
   const getTicketsByStatus = (status) =>
     tickets.filter((ticket) => ticket.status === status);
@@ -36,17 +42,77 @@ function HomePage({ onEditTicket, onNewTicket, refreshKey }) {
         style={{
           display: "flex",
           justifyContent: "space-between",
-          padding: "16px",
+          alignItems: "center",
+          padding: "16px 20px",
+          borderBottom: "1px solid #e5e7eb",
+          backgroundColor: "#ffffff",
         }}
       >
-        <h1>Helpdesk Support</h1>
-        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-          <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-            <option value="updated_at">Sort by Latest Update</option>
-            <option value="created_at">Sort by Created</option>
-            <option value="status">Sort by Status</option>
+        <h1 style={{ margin: 0, fontSize: "20px", color: "black" }}>Helpdesk Support</h1>
+
+        <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+          {/* Sort */}
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            style={{
+              padding: "6px 10px",
+              borderRadius: "6px",
+              border: "1px solid #d1d5db",
+              cursor: "pointer",
+            }}
+          >
+            <option value="updated_at">Latest Update</option>
+            <option value="created_at">Created</option>
           </select>
-          <button onClick={onNewTicket}>+ New Ticket</button>
+
+          {/* Filter */}
+          <div style={{ display: "flex", gap: "6px" }}>
+            {STATUSES.map((status) => {
+              const active = visibleStatuses.includes(status);
+
+              return (
+                <button
+                  key={status}
+                  onClick={() => {
+                    setVisibleStatuses((prev) =>
+                      prev.includes(status)
+                        ? prev.filter((s) => s !== status)
+                        : [...prev, status],
+                    );
+                  }}
+                  style={{
+                    padding: "4px 10px",
+                    borderRadius: "999px",
+                    border: active ? "none" : "1px solid #d1d5db",
+                    backgroundColor: active ? "#3b82f6" : "#f9fafb",
+                    color: active ? "white" : "#374151",
+                    fontSize: "12px",
+                    cursor: "pointer",
+                    transition: "all 0.2s",
+                  }}
+                >
+                  {status}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Button */}
+          <button
+            onClick={onNewTicket}
+            style={{
+              padding: "6px 12px",
+              borderRadius: "6px",
+              border: "none",
+              backgroundColor: "#22c55e",
+              color: "white",
+              fontWeight: "bold",
+              cursor: "pointer",
+            }}
+          >
+            + New Ticket
+          </button>
         </div>
       </div>
 
@@ -58,7 +124,7 @@ function HomePage({ onEditTicket, onNewTicket, refreshKey }) {
         <p style={{ padding: "16px" }}>Loading...</p>
       ) : (
         <div style={{ display: "flex", gap: "16px", padding: "16px" }}>
-          {STATUSES.map((status) => (
+          {STATUSES.filter((s) => visibleStatuses.includes(s)).map((status) => (
             <KanbanColumn
               key={status}
               status={status}
